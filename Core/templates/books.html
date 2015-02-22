@@ -1,0 +1,129 @@
+<div class="container" style="text-align: center">
+	<div class="box">
+				<!-- <h4>Look for author</h4>
+				<div><input style="padding: 2px" type="text" id="autocomplete"/></div> -->
+
+				<div class="row vertical-offset-100">
+					<div class="col-md-8 col-md-offset-2">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Filter by authors</h3>
+							</div>
+							<div class="panel-body">
+								<fieldset>
+									<div class="form-group">
+										<input id="autocomplete" class="form-control" placeholder="Author"type="text">
+									</div>
+									{% csrf_token %}
+
+									<input id="reset_button" class="btn" type="submit" value="Reset">
+								</fieldset>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div style="margin-top:50px"><h4>Read books</h4>
+					{% if books|length > 0%}
+					{% for book in books %}
+					<span class="galleryItem">
+						<a href="/book/{{book.title}}"><img style="
+							margin-top: 3%;" src="{{book.details.image_link}}" alt="" /></a>
+						</span>
+						{% endfor %}
+						{% else %}
+						No books found
+						{% endif %}
+					</div>
+					<div id="container" style="margin-top:10px"></div>
+
+				</div>
+			</div>
+			<script type="text/javascript">
+
+				$('#autocomplete').autocomplete({
+					serviceUrl: '/filter',
+					onSelect: function (suggestion) {
+						event.preventDefault();
+						$.ajax({
+							type: "POST",
+							url: "/filter",
+							data: "author="+suggestion.value,
+						}).done(function(data) {
+							$.notify('List updated', {
+								style: 'alert',
+								className: 'alert_info'
+							});
+							$("#response").html(data);
+						}).fail(function(data){
+							$.notify(data.responseText, {
+								style: 'alert',
+								className: 'alert_error'
+							});					
+						});
+					}
+				});
+
+				$("#reset_button").click(function(){
+					$.ajax({
+						type: "GET",
+						url: "/book",
+					}).done(function(data) {
+						$.notify('List updated', {
+							style: 'alert',
+							className: 'alert_info'
+						});
+						$("#response").html(data);
+					}).fail(function(data){
+						$.notify(data.responseText, {
+							style: 'alert',
+							className: 'alert_error'
+						});					
+					});
+				});
+
+				$(function () {
+					var x ={{reads_dates|safe}}
+					var y = {{reads_values|safe}}
+					var titles = {{titles|safe}}
+					$('#container').highcharts({
+						title: {
+							text: 'Monthly read books',
+            x: -20 //center
+        },
+        xAxis: {
+        	categories: x,
+        	title: {
+        		text: 'Months'
+        	},
+        },
+        yAxis: {
+        	title: {
+        		text: 'Read books'
+        	},
+        	plotLines: [{
+        		value: 0,
+        		width: 1,
+        		color: '#317eac'
+        	}]
+        },
+        legend: {
+        	layout: 'vertical',
+        	align: 'right',
+        	verticalAlign: 'middle',
+        	borderWidth: 0
+        },
+        tooltip: {
+        	formatter: function() {
+        		return titles[this.point.index].join(" <br />");        		
+        	}
+        },
+        series: [{
+        	name: 'Added book',
+        	data: y
+        }]
+    });
+				});
+			</script>
+
+
+

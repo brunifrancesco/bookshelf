@@ -1,0 +1,1 @@
+db.profile.aggregate([{$project:{"books.details.image_link":1,"books.details.authors":1, "books.title":1, "books.details.tags":1}},{$unwind:"$books"},{$match:{"books.details.authors":{$regex:"Ale*"}}}])

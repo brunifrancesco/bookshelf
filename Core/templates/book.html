@@ -1,0 +1,39 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container" style="text-align: center">
+<div class="box">			<h1>{{book.title}}</h1>
+            <h2>
+            {% for author in book.details.authors %}
+                {{author}}
+            {% endfor %}</h2>
+			<h3>Added on {{book.updated_at}}</h3>
+    <img src="{{book.details.image_link}}" alt="book_cover"/></td>
+    
+    <h3>Description</h3>
+    <div>{{book.details.description}}..</div>
+    		
+    <div>
+    <h3>Tags</h3>
+    {% for tag in book.details.tags %}
+    <div><i>{{tag}}</i></div>
+    {% endfor %}
+    {% if book.details.parsed_tags|length > 0 %}
+    <h3>Parsed tags</h3>
+    {% for tag in book.details.parsed_tags|slice:"20" %}
+    {<span><i>{{tag}}</i></span>}
+    {% endfor %}
+    {% endif %}
+    
+    </div>
+
+    <form method="POST" action="/book/{{book.title}}">
+        {% csrf_token %}
+        <button class="btn" id="search_for_tweets">Remove from Bookshelf</button></center>
+    </form>
+</div>
+
+     <div class="box"><a class="btn" href="/">Private area</a> </div>
+
+</div>
+{% endblock %}

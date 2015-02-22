@@ -1,0 +1,7 @@
+*.pyc
+*.csv
+*.sqlite3
+c.py
+retrieve_data.py
+Core/keys.py
+.DS_Store
