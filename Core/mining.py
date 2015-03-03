@@ -7,7 +7,6 @@ from pattern.en import parsetree as en_parsetree
 from pattern.search import search
 import requests
 import json
-from lxml import html
 
 
 def remove_uncorrect_tokens(tokens):
@@ -67,12 +66,8 @@ def retrieve_additional_info(isbn):
         if not "description" in parsed_result["volumeInfo"]:
             r = requests.get("%s?key=%s&country=IT" %(parsed_result["selfLink"], API_KEY))
             parsed_result = (json.loads(r.text))
-        if "description" in parsed_result["volumeInfo"]:
-            pres["description"] = (parsed_result["volumeInfo"]["description"]).encode("utf8")
-        else:
-            pres["description"] = ""
+        pres["description"] = parsed_result["volumeInfo"].get("description", "")
         lang = parsed_result["volumeInfo"]["language"]
     pres["parsed_tags"] = get_ngrams(pres["description"], lang=lang)
     book.details = BookDetail(**pres)
     return book
-

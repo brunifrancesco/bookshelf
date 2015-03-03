@@ -1,5 +1,5 @@
 from Core.models import Profile
-from Core.models import Book
+from Core.models import Book, BookDetail
 from Core.mining import retrieve_additional_info
 
 from bson.objectid import ObjectId
@@ -148,9 +148,9 @@ def get_book_by_name(name, user):
     @param: name the name of the book to be searched for
     @param: the user whose the book belongs to
     """
-    profile = Profile.objects.filter(user=user).filter(books__title=name).first()
-    if profile.books:
-        return profile.books[0]
+    result = make_aggregation_query_pymongo(({"$unwind":"$books"}, {"$match":{"books.title":name}}))
+    if "result" in result and result["result"]:
+        return Book(**result["result"][0]["books"])
     return None
 
 
