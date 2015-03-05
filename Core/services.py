@@ -176,7 +176,7 @@ def get_insights():
     tags = make_aggregation_query_pymongo(({"$unwind":"$books"},{"$project":{"books.details.parsed_tags":1}}, {"$unwind":"$books.details.parsed_tags"}, {"$group":{"_id":"$books.details.parsed_tags", "count": { "$sum": 1 }}},{"$sort":{"count":1}}))
     categories = make_aggregation_query_pymongo(({"$unwind":"$books"},{"$project":{"books.details.tags":1}}, {"$unwind":"$books.details.tags"}, {"$group":{"_id":"$books.details.tags", "count": { "$sum": 1 }}}))
     authors = make_aggregation_query_pymongo(({"$unwind":"$books"},{"$project":{"books.details.authors":1}}, {"$unwind":"$books.details.authors"}, {"$group":{"_id":"$books.details.authors", "count": { "$sum": 1 }}}))
-    tags = [dict(name=d["_id"], count=d["count"]) for d in tags["result"] if d["count"] >4]
-    categories = [dict(name=d["_id"], count=d["count"]) for d in categories["result"]]
-    authors = [dict(name=d["_id"], count=d["count"]) for d in authors["result"]]
+    tags = [dict(text=d["_id"].encode("utf8"), size=d["count"]*10) for d in tags["result"] if d["count"] >4]
+    categories = [dict(text=d["_id"].encode("utf8"), size=d["count"]*10) for d in categories["result"]]
+    authors = [dict(text=d["_id"].encode("utf8"), size=d["count"]*10) for d in authors["result"]]
     return tags, categories, authors

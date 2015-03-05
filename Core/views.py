@@ -155,6 +155,7 @@ def insights(request):
     @param request: the incoming request
     """
     data = dict(zip(["tags", "categories", "authors"], get_insights()))
+    data = {k: json.dumps(data[k]) for k in data}
     return render(request, "insights.html", data)
 
 

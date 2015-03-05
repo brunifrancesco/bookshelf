@@ -1,84 +1,58 @@
 <!DOCTYPE html>
 <html>
-	{% load staticfiles %}
-	<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+{% load staticfiles %}
+<head>
+<meta name="keywords" content="social, sentiment analysis">
+  <meta name="author" content="Francesco Bruni">
+  <meta http‐equiv="Content‐Type" content="text/html; charset=UTF‐8">
+  <title>Magnet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jq.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/notify.js"></script>
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+  <script type="text/javascript" src="{{ STATIC_URL }}js/script.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/autocomplete.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>            
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="{{STATIC_URL}}js/d3layout.js" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-        	<meta name="keywords" content="social, sentiment analysis">
-        	<meta name="author" content="Francesco Bruni">
-        	<meta http‐equiv="Content‐Type" content="text/html; charset=UTF‐8">
-        	<title>Magnet</title>
-        	<link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
-            <script type="text/javascript" src="{{ STATIC_URL }}js/jquery11.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/notify.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/script.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/autocomplete.js"></script>
-            <script src="http://code.highcharts.com/highcharts.js"></script>
-            <script src="http://code.highcharts.com/modules/exporting.js"></script>            
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-
-	</head>
-    	<body>
-    	
-    	<!-- <header>
-            <table>
-                <tr>
-                    <td style="width: 20%">
-                        <img id="logo" width="70%" style="text-align:left !important" alt="magnet_logo" src="{{ STATIC_URL }}images/logo_magnet.png" /> 
-                    </td>
-                    <td style="text-align:right; width:80% ">
-                    {% if user.is_authenticated %}
-                        Hello, <span style="color:#033c73"><b >{{user.username}}</b></span>
-                        <a class="btn" href="/logout">Logout</a>
-                    {% else %}
-                    <a style="color:#033c73; font-size:18px; margin: 10px" href="/about"><b>About</b></a>
-                    <a style="color:#033c73; font-size:18px; margin: 10px" href="/insights"><b>Insights</b></a>
-                    
-                    <a class="btn" href="/">Sign in</a>
-                    <a class="btn" href="/signup">Sign up</a>
-                    {% endif %}
-                    
-                    </td>
-                </tr>
-            </table>
+</head>
+<body>
+          <nav class="navbar navbar-default">
+            <div class="navbar-header">
+              <a class="navbar-brand">MAGNET</a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+            </div>
             
-        </header> -->
-<nav class="navbar navbar-default">
-  <div class="navbar-header">
-    <a class="navbar-brand">MAGNET</a>
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-    
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    
-  </div>
- 
-  <div class="collapse navbar-collapse">
-  
-    <ul class="nav navbar-nav">
-      <li><a href="/about">About</a></li>
-      <li><a href="/insights">Insights</a></li>
-      {% if user.is_authenticated %}
-      <li><a href="/logout">Logout</a></li>
-      <li><a href="/">Private Area</a></li>
-      {% else %}
-      <li><a href="/signup">Signup</a></li>
-      <li><a href="/">Login</a></li>
-      {% endif %}
-      
-    </ul>
-  </div>
-</nav>
-    	
-    	{% block content %}
-		{% endblock %}
-    	</body>
-</html>
+            <div class="collapse navbar-collapse">
+              
+              <ul class="nav navbar-nav">
+                <li><a href="/about">About</a></li>
+                <li><a href="/insights">Insights</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/">Private Area</a></li>
+                {% else %}
+                <li><a href="/signup">Signup</a></li>
+                <li><a href="/">Login</a></li>
+                {% endif %}
+                
+              </ul>
+            </div>
+          </nav>
+          
+          {% block content %}
+          {% endblock %}
+        </body>
+        </html>
